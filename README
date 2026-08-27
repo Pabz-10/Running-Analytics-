@@ -16,13 +16,9 @@ Built to fill specific gaps in my technical background — this project was my f
 
 ## Architecture
 
-```
-Strava API  →  Express/TypeScript API (EC2)  →  PostgreSQL (RDS)
-                        ↑                              ↑
-                   OAuth2 flow                    Knex query builder
-                        ↓
-                 React + TypeScript frontend
-```
+Strava API -> Express/TypeScript API (EC2) -> PostgreSQL (RDS)
+OAuth2 handles authentication; Knex handles all database queries.
+A React + TypeScript frontend consumes the API's stats endpoints.
 
 **Backend:** Node.js, Express, TypeScript, Knex (query builder)
 **Database:** PostgreSQL, hosted on AWS RDS
@@ -41,29 +37,20 @@ Two tables with a foreign-key relationship:
 
 | Method | Route | Description |
 |---|---|---|
-| `GET` | `/exchange_token` | OAuth2 callback — exchanges an authorization code for access/refresh tokens |
-| `POST` | `/activities` | Syncs recent activities from Strava into the database |
-| `GET` | `/stats/weekly-mileage` | Total distance per week |
-| `GET` | `/stats/pace-trend` | Average pace (min/km) per week |
-| `GET` | `/stats/personal-record-5k` | Fastest recorded effort in the 5K distance range |
-
-## Notable technical decisions
-
-- **Knex over a full ORM** — chosen deliberately so the underlying SQL stays visible and legible rather than abstracted away, since writing real SQL was a specific goal of this project
-- **`ON CONFLICT ... DO NOTHING`** on activity inserts, making the sync endpoint safely re-runnable without duplicate-key errors
-- **Environment-based secrets** — all credentials (DB connection, Strava client secret) are loaded via environment variables, never committed to source control
+| GET | /exchange_token | OAuth2 callback — exchanges an authorization code for access/refresh tokens |
+| POST | /activities | Syncs recent activities from Strava into the database |
+| GET | /stats/weekly-mileage | Total distance per week |
+| GET | /stats/pace-trend | Average pace (min/km) per week |
+| GET | /stats/personal-record-5k | Fastest recorded effort in the 5K distance range |
 
 ## Running locally
 
-```bash
 npm install
-# create a .env file with DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME,
-# STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
+Create a .env file with: DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
 npm run dev
-```
 
 ## What I'd do differently / next steps
 
 - Add token refresh logic so expired Strava tokens are renewed automatically instead of requiring manual re-authorization
-- Move deployment to a CI/CD pipeline (GitHub Actions) instead of manual `git pull` + `pm2 restart`
+- Move deployment to a CI/CD pipeline (GitHub Actions) instead of manual git pull + pm2 restart
 - Expand the schema to capture elevation gain and heart rate data
