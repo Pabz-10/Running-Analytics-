@@ -2,7 +2,10 @@
 import knex from "knex";
 import db from "./db";
 import express from "express";
+import cors from "cors";
+
 const app = express();
+app.use(cors());
 const port = 3000;
 
 
@@ -48,13 +51,6 @@ app.get("/exchange_token", async (req, res) => {
         console.error(error);
         res.status(500).send("Something went wrong");
     }
-});
-
-
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-
 });
 
 
@@ -171,5 +167,11 @@ app.get("/stats/personal-record-5k", async(req, res) => {
         res.status(500).send("Something went wrong");
     }
 
+
+});
+
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 
 });
