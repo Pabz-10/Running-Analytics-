@@ -45,9 +45,9 @@ Two tables with a foreign-key relationship:
 
 ## Running locally
 
-npm install
-Create a .env file with: DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
-npm run dev
+1. npm install
+2. Create a .env file with: DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
+3. npm run dev
 
 ## What I'd do differently / next steps
 
