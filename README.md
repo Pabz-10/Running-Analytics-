@@ -1,8 +1,6 @@
 # Running Analytics API
 
-A full-stack analytics platform that syncs personal training data from the Strava API, stores it in a relational database, and surfaces performance trends through a set of SQL-driven endpoints and a React dashboard.
-
-Built to fill specific gaps in my technical background — this project was my first hands-on work with TypeScript, cloud infrastructure (AWS), and production SQL, using my own running data as a real, motivating dataset.
+A full stack analytics platform that syncs personal training data from the Strava API, stores it in a relational database, and surfaces performance trends through a set of SQL-driven endpoints and a React dashboard.
 
 ## What it does
 
@@ -28,7 +26,7 @@ A React + TypeScript frontend consumes the API's stats endpoints.
 
 ## Database schema
 
-Two tables with a foreign-key relationship:
+Two tables:
 
 - `athletes` — Strava identity and OAuth tokens (access token, refresh token, expiry)
 - `activities` — synced run data (distance, moving/elapsed time, start time), linked to `athletes` via `athlete_id`, with a unique constraint on `activity_id` to keep syncs idempotent
@@ -49,8 +47,3 @@ Two tables with a foreign-key relationship:
 2. Create a .env file with: DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME, STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
 3. npm run dev
 
-## What I'd do differently / next steps
-
-- Add token refresh logic so expired Strava tokens are renewed automatically instead of requiring manual re-authorization
-- Move deployment to a CI/CD pipeline (GitHub Actions) instead of manual git pull + pm2 restart
-- Expand the schema to capture elevation gain and heart rate data
